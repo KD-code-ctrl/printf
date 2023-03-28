@@ -85,7 +85,7 @@ void print_prcnt(Write *params, va_list arg __attribute__((unused)))
  * Return: numbers of printed characters
  */
 
-int print_f(const char *format, ...)
+int _printf(const char *format, ...)
 {
 	int i, x, printed;
 	va_list arg;
