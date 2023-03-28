@@ -87,7 +87,7 @@ int _printf(const char *format, ...)
 	Write *params = malloc(sizeof(Write));
 
 	params->fd = STDOUT_FILENO;
-	params->buf = "";
+	params->buf = NULL;
 	params->len = 0;
 
 	i = 0;
