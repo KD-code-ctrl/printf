@@ -5,17 +5,18 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-void print_char(Write *params,va_list arg);
-void print_string(Write *params,va_list arg);
-void print_prcnt(Write *params,va_list arg);
+void print_char(Write *params, va_list arg);
+void print_string(Write *params, va_list arg);
+void print_prcnt(Write *params, va_list arg);
 void myprint(Write *params);
 /**
  * myprint - is a function that prints a buffer to the std output
  * @params: is a pointer to struct
  * Return: void
  */
-void myprint(Write *params) {   
-        write(params->fd, params->buf, params->len);
+void myprint(Write *params)
+{
+	write(params->fd, params->buf, params->len);
 }
 
 /**
@@ -27,8 +28,9 @@ void myprint(Write *params) {
  */
 void print_char(Write *params, va_list arg)
 {
-	char *buf = (char*)malloc(2 * sizeof(char));
+	char *buf = (char *)malloc(2 * sizeof(char));
 	char ch = va_arg(arg, int);
+
 	buf[0] = ch;
 	buf[1] = '\0';
 	params->buf = buf;
@@ -45,14 +47,14 @@ void print_char(Write *params, va_list arg)
  * Return: void
  */
 
-void print_string (Write *params, va_list arg)
+void print_string(Write *params, va_list arg)
 {
 	char *str;
+
 	str = va_arg(arg, char *);
 	if (str == NULL)
 	{
 		str = "(null)";
-		
 	}
 	params->buf = str;
 	params->len = strlen(str);
@@ -67,7 +69,8 @@ void print_string (Write *params, va_list arg)
  */
 void print_prcnt(Write *params, va_list arg __attribute__((unused)))
 {
-	char *buf = (char*)malloc(2 * sizeof(char));
+	char *buf = (char *)malloc(2 * sizeof(char));
+
 	buf[0] = '%';
 	buf[1] = '\0';
 	params->buf = buf;
@@ -75,9 +78,12 @@ void print_prcnt(Write *params, va_list arg __attribute__((unused)))
 	myprint(params);
 	free(buf);
 }
-
-
-
+/**
+ * print_f - is a function that prints a string
+ * @format: is the format the string is going to be
+ * printed in
+ * Return: numbers of printed characters
+ */
 
 int print_f(const char *format, ...)
 {
@@ -90,16 +96,17 @@ int print_f(const char *format, ...)
 		{NULL, NULL}
 	};
 	Write *params = malloc(sizeof(Write));
+
 	params->fd = STDOUT_FILENO;
 	params->buf = "";
 	params->len = 0;
 
 	i = 0;
 	printed = 0;
-	va_start(arg,format);
+	va_start(arg, format);
 	while (format != NULL && format[i] != '\0')
 	{
-		if (format [i] == '%')
+		if (format[i] == '%')
 		{
 			i++;
 			x = 0;
@@ -108,7 +115,7 @@ int print_f(const char *format, ...)
 			{
 				if (format[i] == *(put[x].specifier))
 				{
-					put[x].funct(params,arg);
+					put[x].funct(params, arg);
 					printed++;
 					break;
 				}
@@ -117,7 +124,7 @@ int print_f(const char *format, ...)
 		}
 		else
 		{
-			params->buf = (char*)&format[i];
+			params->buf = (char *)&format[i];
 			params->len = 1;
 			myprint(params);
 			printed++;
