@@ -28,15 +28,11 @@ void myprint(Write *params)
  */
 void print_char(Write *params, va_list arg)
 {
-	char *buf = (char *)malloc(2 * sizeof(char));
 	char ch = va_arg(arg, int);
 
-	buf[0] = ch;
-	buf[1] = '\0';
-	params->buf = buf;
+	params->buf = &ch;
 	params->len = 1;
 	myprint(params);
-	free(buf);
 }
 
 /**
@@ -49,13 +45,8 @@ void print_char(Write *params, va_list arg)
 
 void print_string(Write *params, va_list arg)
 {
-	char *str;
+	char *str = va_arg(arg, char *);
 
-	str = va_arg(arg, char *);
-	if (str == NULL)
-	{
-		str = "(null)";
-	}
 	params->buf = str;
 	params->len = strlen(str);
 	myprint(params);
@@ -67,19 +58,17 @@ void print_string(Write *params, va_list arg)
  * @arg: is the argument to be printed
  * Return: void
  */
-void print_prcnt(Write *params, va_list arg __attribute__((unused)))
+void print_prcnt(Write *params, va_list arg)
 {
-	char *buf = (char *)malloc(2 * sizeof(char));
+	char c = '%';
+	(void)arg;
 
-	buf[0] = '%';
-	buf[1] = '\0';
-	params->buf = buf;
+	params->buf = &c;
 	params->len = 1;
 	myprint(params);
-	free(buf);
 }
 /**
- * print_f - is a function that prints a string
+ * _printf - is a function that prints a string
  * @format: is the format the string is going to be
  * printed in
  * Return: numbers of printed characters
@@ -116,7 +105,7 @@ int _printf(const char *format, ...)
 				if (format[i] == *(put[x].specifier))
 				{
 					put[x].funct(params, arg);
-					printed++;
+					printed += params->len;
 					break;
 				}
 				x++;
