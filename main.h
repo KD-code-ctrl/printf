@@ -1,28 +1,28 @@
+#include <stdarg.h>
+#include <stddef.h>
 #ifndef MAIN_H
 #define MAIN_H
-#include <stdarg.h>
-#include <string.h>
 
-
-typedef struct {
-    int fd;
-    char *buf;
-    size_t len;
-}Write;
-
-
-
-typedef struct print
+/**
+ * struct symbols - is a structure
+ * @specifier: To determine what format should be printed
+ * @funct: is a pointer to function
+ */
+typedef struct symbols
 {
-        char *specifier;
-        int (*funct)(Write *, va_list arg);
+	char *specifier;
+	int (*funct)(va_list arg);
 }_printer;
 
-int (*_identify(const char *format))(Write *, va_list);
-int _printf(const char *format, ...);
-int print_char(Write *params, va_list arg);
-int print_string(Write *params, va_list arg);
-int print_prcnt(Write *params, va_list arg);
-void myprint(Write *params);
 
+
+int _identify(char specifier, va_list args);
+int _print(const char *format, va_list args);
+int _print_char(va_list args);
+int _print_string(va_list args);
+int _print_int(va_list args);
+int _print_invalid_spec(char prev, char c, int count);
+int _validate_char(char c);
+int _write(char c);
+int _printf(const char *format, ...);
 #endif
