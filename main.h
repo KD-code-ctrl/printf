@@ -1,7 +1,7 @@
-#include <stdarg.h>
-#include <stddef.h>
 #ifndef MAIN_H
 #define MAIN_H
+#include <stdarg.h>
+#include <stddef.h>
 
 /**
  * struct symbols - is a structure
@@ -25,4 +25,5 @@ int _print_invalid_spec(char prev, char c, int count);
 int _validate_char(char c);
 int _write(char c);
 int _printf(const char *format, ...);
+
 #endif
