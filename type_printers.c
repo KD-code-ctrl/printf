@@ -52,7 +52,6 @@ int _print_int(va_list args)
 		return (_write('0'));
 	}
 	i = 0;
-	
 	if (n < 0)
 	{
 		buf[i++] = '-';
