@@ -44,7 +44,7 @@ int _print_string(va_list args)
 int _print_int(va_list args)
 {
 	char buf[32];
-	unsigned int n = va_arg(args, int);
+	int n = va_arg(args, int);
 	int i, m, j;
 
 	if (n == 0)
@@ -52,6 +52,7 @@ int _print_int(va_list args)
 		return (_write('0'));
 	}
 	i = 0;
+	
 	if (n < 0)
 	{
 		buf[i++] = '-';
