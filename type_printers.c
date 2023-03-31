@@ -44,29 +44,38 @@ int _print_string(va_list args)
 int _print_int(va_list args)
 {
 	char buf[32];
-	int n = va_arg(args, int);
-	int i, m, j;
+	unsigned int n = va_arg(args, int);
+	int i, m, ret;
 
+	i = 0;
+	m = 0;
+	ret = 0;
+	m = n;
+	if (m < 0)
+	{
+		_write('-');
+		m *= -1;
+		n = (unsigned int)m;
+		ret++;
+	}
+	else
+	{
+		n = m;
+	}
 	if (n == 0)
 	{
-		return (_write('0'));
+		_write('0');
+		return (1);
 	}
-	i = 0;
-	if (n < 0)
+	while (n > 0)
 	{
-		buf[i++] = '-';
-		n = -n;
+		buf[i++] = (n % 10) + '0';
+		n /= 10;
 	}
-	m = n;
-	while (m > 0)
+	ret  += i;
+	while (i > 0)
 	{
-		buf[i++] = (m % 10) + '0';
-		m /= 10;
+		_write(buf[--i]);
 	}
-	j = i - 1;
-	while (j >= 0)
-	{
-		_write(buf[j--]);
-	}
-	return (i);
+	return (ret);
 }
