@@ -12,7 +12,7 @@ typedef struct symbols
 {
 	char *specifier;
 	int (*funct)(va_list arg);
-}_printer;
+} _printer;
 
 
 
